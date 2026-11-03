@@ -3,4 +3,4 @@ header { height: 64px; display: flex; justify-content: space-between; align-item
 button { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 6px; background: transparent; font-size: 18px; }
 button:hover:enabled { background: #f4f4f5; }
 button:disabled { color: inherit; opacity: 1; }
-svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+mat-icon { width: 20px; height: 20px; font-size: 20px; }

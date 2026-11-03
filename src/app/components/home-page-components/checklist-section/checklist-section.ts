@@ -1,8 +1,9 @@
+import { MatIconModule } from '@angular/material/icon';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-checklist-section',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './checklist-section.html',
   styleUrl: './checklist-section.scss',
 })

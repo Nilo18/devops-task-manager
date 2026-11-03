@@ -8,7 +8,7 @@ select + select { width: min(128px, 45%); }
 .card { padding: 24px; border: 1px solid #e5e5e5; border-radius: 12px; box-shadow: 0 1px 2px #0002; }
 .stats .card div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 strong { display: block; margin-top: 8px; font-size: 24px; color: var(--tone, currentColor); }
-.card span { color: var(--tone, #686868); }
+.card mat-icon { color: var(--tone, #686868); }
 .green { --tone: #198754; }
 .amber { --tone: #957000; }
 .red { --tone: #b82d36; }
@@ -19,3 +19,6 @@ h2 { display: flex; gap: 8px; align-items: center; margin: 0; font-size: 18px; }
 .card p { margin: 24px 0 0; color: #686868; }
 @media (max-width: 1000px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .lists { grid-template-columns: minmax(0, 1fr); } .card { padding: 16px; } }
+
+.stats mat-icon { width: 16px; height: 16px; font-size: 16px; }
+h2 mat-icon { width: 20px; height: 20px; font-size: 20px; }

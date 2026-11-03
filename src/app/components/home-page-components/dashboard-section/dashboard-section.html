@@ -11,7 +11,7 @@
 <div class="stats">
   @for (stat of stats; track stat.label) {
     <article class="card" [class]="stat.tone">
-      <div>{{ stat.label }} <span aria-hidden="true">{{ stat.icon }}</span></div>
+      <div>{{ stat.label }} <mat-icon>{{ stat.icon }}</mat-icon></div>
       <strong>0</strong>
     </article>
   }
@@ -21,6 +21,6 @@
   <button type="button" [attr.aria-pressed]="checklist()" (click)="checklist.set(true)">Daily Checklist</button>
 </div>
 <div class="lists">
-  <article class="card green"><h2><span aria-hidden="true">⊙</span> Completed {{ checklist() ? 'Checklist Items' : 'Tasks' }} (0)</h2><p>No completed {{ checklist() ? 'checklist items' : 'tasks' }}</p></article>
-  <article class="card amber"><h2><span aria-hidden="true">◷</span> Pending {{ checklist() ? 'Checklist Items' : 'Tasks' }} (0)</h2><p>No pending {{ checklist() ? 'checklist items' : 'tasks' }}</p></article>
+  <article class="card green"><h2><mat-icon>check_circle_outline</mat-icon> Completed {{ checklist() ? 'Checklist Items' : 'Tasks' }} (0)</h2><p>No completed {{ checklist() ? 'checklist items' : 'tasks' }}</p></article>
+  <article class="card amber"><h2><mat-icon>schedule</mat-icon> Pending {{ checklist() ? 'Checklist Items' : 'Tasks' }} (0)</h2><p>No pending {{ checklist() ? 'checklist items' : 'tasks' }}</p></article>
 </div>

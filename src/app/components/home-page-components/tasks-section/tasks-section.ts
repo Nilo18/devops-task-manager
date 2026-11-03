@@ -1,8 +1,9 @@
+import { MatIconModule } from '@angular/material/icon';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tasks-section',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './tasks-section.html',
   styleUrl: './tasks-section.scss',
 })

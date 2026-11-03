@@ -1,7 +1,9 @@
+import { MatIconModule } from '@angular/material/icon';
 import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-section',
+  imports: [MatIconModule],
   templateUrl: './dashboard-section.html',
   styleUrl: './dashboard-section.scss',
 })
@@ -13,10 +15,10 @@ export class DashboardSection {
   readonly years = Array.from({ length: 11 }, (_, index) => this.year - 5 + index);
   readonly checklist = signal(false);
   readonly stats = [
-    { label: 'Total Tasks', icon: '☷', tone: 'neutral' },
-    { label: 'Completed', icon: '⊙', tone: 'green' },
-    { label: 'Pending', icon: '◷', tone: 'amber' },
-    { label: 'Overdue', icon: 'ⓘ', tone: 'red' },
+    { label: 'Total Tasks', icon: 'checklist', tone: 'neutral' },
+    { label: 'Completed', icon: 'check_circle_outline', tone: 'green' },
+    { label: 'Pending', icon: 'schedule', tone: 'amber' },
+    { label: 'Overdue', icon: 'error_outline', tone: 'red' },
   ];
 }
 

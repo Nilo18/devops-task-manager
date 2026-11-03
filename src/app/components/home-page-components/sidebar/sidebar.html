@@ -1,6 +1,6 @@
-<div class="brand"><span aria-hidden="true">☑</span>TaskFlow</div>
+<div class="brand"><mat-icon>check_box</mat-icon>TaskFlow</div>
 <nav aria-label="Main navigation">
   @for (link of links; track link; let index = $index) {
-    <button type="button" [attr.aria-current]="active() === index ? 'page' : null" (click)="navigate.emit(index)"><span aria-hidden="true">{{ icons[index] }}</span>{{ link }}</button>
+    <button type="button" [attr.aria-current]="active() === index ? 'page' : null" (click)="navigate.emit(index)"><mat-icon>{{ icons[index] }}</mat-icon>{{ link }}</button>
   }
 </nav>
