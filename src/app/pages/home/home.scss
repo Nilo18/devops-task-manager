@@ -1,0 +1,7 @@
+.shell { display: grid; grid-template-columns: 256px minmax(0, 1fr); min-height: 100dvh; }
+.collapsed { grid-template-columns: minmax(0, 1fr); }
+main { padding: 24px; }
+@media (max-width: 680px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  main { padding: 16px; }
+}

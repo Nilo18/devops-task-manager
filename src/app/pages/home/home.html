@@ -1,1 +1,16 @@
-<p>home works!</p>
+<div class="shell" [class.collapsed]="!sidebarOpen()">
+  @if (sidebarOpen()) { <app-sidebar [active]="active()" (navigate)="active.set($event)" /> }
+  <div class="workspace">
+    <app-header [expanded]="sidebarOpen()" (toggle)="sidebarOpen.update(open => !open)" />
+    <main>
+      @switch (active()) {
+        @case (0) { <app-dashboard-section /> }
+        @case (1) { <app-tasks-section /> }
+        @case (2) { <app-checklist-section /> }
+        @case (3) { <app-analytics-section /> }
+        @case (4) { <app-reports-section /> }
+        @case (5) { <app-settings-section /> }
+      }
+    </main>
+  </div>
+</div>

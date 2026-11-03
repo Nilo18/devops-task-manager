@@ -1,1 +1,6 @@
-<p>sidebar works!</p>
+<div class="brand"><span aria-hidden="true">☑</span>TaskFlow</div>
+<nav aria-label="Main navigation">
+  @for (link of links; track link; let index = $index) {
+    <button type="button" [attr.aria-current]="active() === index ? 'page' : null" (click)="navigate.emit(index)"><span aria-hidden="true">{{ icons[index] }}</span>{{ link }}</button>
+  }
+</nav>
