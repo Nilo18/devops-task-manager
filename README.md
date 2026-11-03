@@ -1,59 +1,65 @@
-# DevopsTaskManager
+# TaskFlow
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+TaskFlow არის ამოცანებისა და ყოველდღიური ჩეკლისტების მართვის ვებაპლიკაცია. მომხმარებელს შეუძლია დაამატოს ამოცანები პრიორიტეტითა და ვადით, მონიშნოს შესრულებული პუნქტები, ნახოს შესრულების სტატისტიკა და შეინახოს ანგარიშები. მონაცემები ინახება ბრაუზერის `localStorage`-ში.
 
-## Development server
+**ტექნოლოგიები** · Angular 21, TypeScript, SCSS, Angular Material, Vitest, GitHub Actions და Vercel.
 
-To start a local development server, run:
+## ლოკალურად გაშვება
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+საჭიროა Node.js 24 და npm.
 
 ```bash
-ng generate component component-name
+npm ci
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+აპლიკაცია გაიხსნება მისამართზე `http://localhost:4200/`. ტესტების გასაშვებად გამოიყენეთ `npm test -- --watch=false`, ხოლო production ბილდისთვის — `npm run build`.
 
-```bash
-ng generate --help
+## Git და CI/CD
+
+კოდი ინახება GitHub-ზე. `dev` გამოიყენება განვითარებისთვის, ხოლო `main` არის production დეპლოიმენტის ბრენჩი. [GitHub-ის ბრენჩები](https://github.com/Nilo18/devops-task-manager/branches)
+
+[Workflow](.github/workflows/ci.yml) ავტომატურად იწყება ყოველ push-სა და pull request-ზე. შესაძლებელია მისი ხელით გაშვებაც.
+
+| ეტაპი | რას აკეთებს |
+| --- | --- |
+| **Build** | აყენებს დამოკიდებულებებს `npm ci`-ით, ქმნის Angular-ის production ბილდს და ტვირთავს მას `taskflow-browser` არტეფაქტად. |
+| **Test** | წარმატებული ბილდის შემდეგ უშვებს Vitest-ის ტესტებს. ტესტები ამოწმებს, მათ შორის, შესრულებული და ვადაგადაცილებული ამოცანების დათვლას. |
+| **Deploy** | წარმატებული ტესტების შემდეგ, `main`-ზე push-ის ან ხელით გაშვებისას, ჩამოტვირთავს ბილდს და Vercel CLI-ით აქვეყნებს production გარემოში. |
+
+დეპლოიმენტისთვის GitHub Actions იყენებს რეპოზიტორიის სამ საიდუმლო მნიშვნელობას: `VERCEL_TOKEN`, `VERCEL_ORG_ID` და `VERCEL_PROJECT_ID`.
+
+### სამუშაო პროცესის დიაგრამა
+
+```mermaid
+flowchart LR
+    A["Push / pull request / manual run"] --> B["Build"]
+    B -->|Success| C["Test"]
+    C -->|"Success on main, push or manual run"| D["Deploy to Vercel"]
+    D --> E["HTTP health check"]
+    E --> F["Upload health-check.log"]
 ```
 
-## Building
+## მონიტორინგი და ჯანმრთელობის შემოწმება
 
-To build the project run:
+Deploy ეტაპი `curl`-ით ამოწმებს Vercel-ის მიერ დაბრუნებულ URL-ს. `health-check.log` შეიცავს UTC დროს, URL-ს, HTTP სტატუსსა და `curl`-ის გამოსვლის კოდს. შემოწმება წარმატებულია, როდესაც HTTP სტატუსი არის `2xx` და გამოსვლის კოდი არის `0`. ლოგი ინახება `deployment-health` არტეფაქტში. მისი ნახვა შეიძლება workflow-ის **Summary → Artifacts** განყოფილებაში ან **Deploy → Check deployment health** ეტაპის ლოგში. [GitHub Actions-ის გაშვება](https://github.com/Nilo18/devops-task-manager/actions/runs/41660119562)
 
-```bash
-ng build
-```
+## შესრულების მტკიცებულებები
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### წარმატებული CI/CD პაიპლაინი
 
-## Running unit tests
+GitHub Actions-ზე `main` ბრენჩისთვის სამივე ეტაპი წარმატებით დასრულდა.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+![GitHub Actions-ზე წარმატებული Build, Test და Deploy ეტაპები](docs/screenshots/pipeline.png)
 
-```bash
-ng test
-```
+### წარმატებული იუნიტ ტესტები
 
-## Running end-to-end tests
+Vitest-ის ანგარიშში ჩანს 11 წარმატებული სატესტო ფაილი და 13 წარმატებული ტესტი.
 
-For end-to-end (e2e) testing, run:
+![Vitest-ის ანგარიში 13 წარმატებული ტესტით](docs/screenshots/unit-tests.png)
 
-```bash
-ng e2e
-```
+### მომუშავე აპლიკაცია
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+TaskFlow-ის დეშბორდი ლოკალურად გაშვებულ აპლიკაციაში.
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+![ლოკალურად გაშვებული TaskFlow-ის დეშბორდი](docs/screenshots/app.png)
