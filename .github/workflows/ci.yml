@@ -1,0 +1,84 @@
+name: TaskFlow CI/CD
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: taskflow-browser
+          path: dist/devops-task-manager/browser
+          if-no-files-found: error
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test -- --watch=false
+
+  deploy:
+    name: Deploy
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: taskflow-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          name: taskflow-browser
+          path: .vercel/output/static
+      - name: Deploy build to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          if [[ -z "$VERCEL_TOKEN" || -z "$VERCEL_ORG_ID" || -z "$VERCEL_PROJECT_ID" ]]; then
+            echo "::error::Configure VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID in GitHub Actions secrets."
+            exit 1
+          fi
+          printf '%s\n' '{"version":3}' > .vercel/output/config.json
+          url=$(npx --yes vercel deploy --prebuilt --prod --yes --token "$VERCEL_TOKEN")
+          printf '%s\n' "$url" > deployment-url.txt
+      - name: Check deployment health
+        run: |
+          url=$(cat deployment-url.txt)
+          status=0
+          http=$(curl --silent --show-error --fail --location --retry 3 --max-time 20 --output /dev/null --write-out '%{http_code}' "$url") || status=$?
+          printf '%s %s HTTP=%s curl_exit=%s\n' "$(date -u +%FT%TZ)" "$url" "$http" "$status" | tee health-check.log
+          [[ "$status" == 0 && "$http" == 2* ]]
+      - name: Upload health log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-health
+          path: health-check.log
+          if-no-files-found: ignore
