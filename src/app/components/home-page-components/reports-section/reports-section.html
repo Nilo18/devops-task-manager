@@ -1,18 +1,27 @@
 <h1>Reports</h1>
 <p class="intro">Review reports on tasks and daily checklists</p>
 
+<div class="workspace-form"><button type="button" (click)="workspace.createReport()">Save report snapshot</button></div>
 <section class="card" aria-labelledby="reports-title">
   <header>
     <div>
       <h2 id="reports-title">Report History</h2>
       <p>View reports from previous periods</p>
     </div>
-    <span class="count">0 reports</span>
+    <span class="count">{{ workspace.reports().length }} reports</span>
   </header>
 
+  @for (report of workspace.reports(); track report.id) {
+    <article class="item-row report-row">
+      <h3>{{ report.date }}</h3>
+      <p>Tasks completed: {{ report.tasks.completed }} of {{ report.tasks.total }} · Overdue: {{ report.tasks.overdue }}</p>
+      <p>Daily checklist completed: {{ report.checklist.completed }} of {{ report.checklist.total }}</p>
+    </article>
+  } @empty {
   <div class="empty">
     <mat-icon>description</mat-icon>
     <h3>No reports yet</h3>
     <p>Reports will appear here when they’re available.</p>
   </div>
+  }
 </section>

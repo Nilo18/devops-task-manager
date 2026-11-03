@@ -1,5 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+
+import { Workspace } from '../../../workspace';
 
 @Component({
   selector: 'app-reports-section',
@@ -8,5 +10,7 @@ import { Component } from '@angular/core';
   styleUrl: './reports-section.scss',
 })
 export class ReportsSection {
+  readonly workspace = inject(Workspace);
+
 
 }

@@ -11,7 +11,10 @@
       </div>
     </header>
     <dl>
-      <div><dt>Workspace name</dt><dd>TaskFlow</dd></div>
+      <div><dt>Workspace name</dt><dd><form class="workspace-form" (submit)="$event.preventDefault(); workspace.rename(name.value)">
+  <input #name aria-label="Workspace name" [value]="workspace.name()" maxlength="40" required>
+  <button type="submit">Save</button>
+</form></dd></div>
       <div><dt>Appearance</dt><dd>Light</dd></div>
     </dl>
   </section>

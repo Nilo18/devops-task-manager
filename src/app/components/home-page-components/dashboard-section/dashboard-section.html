@@ -1,18 +1,18 @@
 <h1>Dashboard</h1>
 <p class="intro">Overview of your tasks and checklists</p>
 <div class="filters">
-  <select aria-label="Month">
-    @for (name of months; track name; let index = $index) { <option [selected]="index === month">{{ name }}</option> }
+  <select aria-label="Month" #monthSelect (change)="month.set(monthSelect.selectedIndex)">
+    @for (name of months; track name; let index = $index) { <option [selected]="index === month()">{{ name }}</option> }
   </select>
-  <select aria-label="Year">
-    @for (option of years; track option) { <option [selected]="option === year">{{ option }}</option> }
+  <select aria-label="Year" #yearSelect (change)="year.set(+yearSelect.value)">
+    @for (option of years; track option) { <option [selected]="option === year()">{{ option }}</option> }
   </select>
 </div>
 <div class="stats">
-  @for (stat of stats; track stat.label) {
+  @for (stat of stats; track stat.label; let index = $index) {
     <article class="card" [class]="stat.tone">
       <div>{{ stat.label }} <mat-icon>{{ stat.icon }}</mat-icon></div>
-      <strong>0</strong>
+      <strong>{{ [metrics().total, metrics().completed, metrics().pending, metrics().overdue][index] }}</strong>
     </article>
   }
 </div>
@@ -21,6 +21,6 @@
   <button type="button" [attr.aria-pressed]="checklist()" (click)="checklist.set(true)">Daily Checklist</button>
 </div>
 <div class="lists">
-  <article class="card green"><h2><mat-icon>check_circle_outline</mat-icon> Completed {{ checklist() ? 'Checklist Items' : 'Tasks' }} (0)</h2><p>No completed {{ checklist() ? 'checklist items' : 'tasks' }}</p></article>
-  <article class="card amber"><h2><mat-icon>schedule</mat-icon> Pending {{ checklist() ? 'Checklist Items' : 'Tasks' }} (0)</h2><p>No pending {{ checklist() ? 'checklist items' : 'tasks' }}</p></article>
+  <article class="card green"><h2><mat-icon>check_circle_outline</mat-icon> Completed {{ checklist() ? 'Checklist Items' : 'Tasks' }} ({{ completed().length }})</h2>@if (completed().length) { <ul>@for (item of completed(); track item.id) { <li>{{ item.title }}</li> }</ul> } @else { <p>No completed {{ checklist() ? 'checklist items' : 'tasks' }}</p> }</article>
+  <article class="card amber"><h2><mat-icon>schedule</mat-icon> Pending {{ checklist() ? 'Checklist Items' : 'Tasks' }} ({{ pending().length }})</h2>@if (pending().length) { <ul>@for (item of pending(); track item.id) { <li>{{ item.title }}</li> }</ul> } @else { <p>No pending {{ checklist() ? 'checklist items' : 'tasks' }}</p> }</article>
 </div>

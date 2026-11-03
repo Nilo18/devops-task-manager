@@ -1,13 +1,19 @@
 <h1>Tasks</h1>
 <p class="intro">Review your tasks and track their progress</p>
 
+<form class="workspace-form" (submit)="$event.preventDefault(); workspace.add('tasks', title.value, due.value, priority.value) && form.reset()" #form>
+  <label>Task name <input #title required maxlength="120"></label>
+  <label>Priority <select #priority><option>Normal</option><option>High</option><option>Low</option></select></label>
+  <label>Due date <input #due type="date" [value]="today" required></label>
+  <button type="submit">Add task</button>
+</form>
 <section class="card" aria-labelledby="task-list-title">
   <div class="card-header">
     <div>
       <h2 id="task-list-title">All Tasks</h2>
       <p>A list of tasks and their current status</p>
     </div>
-    <span class="count">0 tasks</span>
+    <span class="count">{{ workspace.tasks().length }} tasks</span>
   </div>
 
   <div class="table-scroll">
@@ -21,6 +27,14 @@
         </tr>
       </thead>
       <tbody>
+        @for (task of workspace.tasks(); track task.id) {
+          <tr class="item-row">
+            <td>{{ task.title }}</td>
+            <td><label><input type="checkbox" [checked]="task.done" (change)="workspace.toggle('tasks', task.id)" [attr.aria-label]="'Complete ' + task.title"> {{ task.done ? 'Completed' : task.date < today ? 'Overdue' : 'Pending' }}</label></td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.date }} <button type="button" (click)="workspace.remove('tasks', task.id)" [attr.aria-label]="'Remove ' + task.title"><mat-icon>delete_outline</mat-icon></button></td>
+          </tr>
+        } @empty {
         <tr>
           <td colspan="4">
             <div class="empty">
@@ -30,6 +44,7 @@
             </div>
           </td>
         </tr>
+        }
       </tbody>
     </table>
   </div>

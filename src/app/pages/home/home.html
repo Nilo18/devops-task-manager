@@ -3,6 +3,7 @@
   <div class="workspace">
     <app-header [expanded]="sidebarOpen()" (toggle)="sidebarOpen.update(open => !open)" />
     <main>
+      @if (workspace.storageError()) { <p class="storage-error" role="alert">The change could not be saved to browser storage.</p> }
       @switch (active()) {
         @case (0) { <app-dashboard-section /> }
         @case (1) { <app-tasks-section /> }

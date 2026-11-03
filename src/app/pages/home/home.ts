@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Sidebar } from '../../components/home-page-components/sidebar/sidebar';
 import { Header } from '../../components/home-page-components/header/header';
 import { DashboardSection } from '../../components/home-page-components/dashboard-section/dashboard-section';
@@ -8,6 +8,8 @@ import { AnalyticsSection } from '../../components/home-page-components/analytic
 import { ReportsSection } from '../../components/home-page-components/reports-section/reports-section';
 import { SettingsSection } from '../../components/home-page-components/settings-section/settings-section';
 
+import { Workspace } from '../../workspace';
+
 @Component({
   selector: 'app-home',
   imports: [Sidebar, Header, DashboardSection, TasksSection, ChecklistSection, AnalyticsSection, ReportsSection, SettingsSection],
@@ -15,6 +17,7 @@ import { SettingsSection } from '../../components/home-page-components/settings-
   styleUrl: './home.scss',
 })
 export class Home {
+  readonly workspace = inject(Workspace);
   readonly active = signal(0);
   readonly sidebarOpen = signal(true);
 }

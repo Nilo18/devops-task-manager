@@ -5,3 +5,15 @@ button:enabled, select { cursor: pointer; }
 :focus-visible { outline: 2px solid #7061e3; outline-offset: 2px; }
 h1 { margin: 0; font-size: 32px; line-height: 1.2; }
 
+
+.workspace-form { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-bottom: 16px; }
+.workspace-form label { display: grid; gap: 4px; }
+.workspace-form input, .workspace-form select { min-width: 0; max-width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 8px; }
+.workspace-form button { padding: 8px 14px; border: 1px solid #6555d2; border-radius: 6px; background: #6555d2; color: white; }
+.item-row { border-top: 1px solid #e5e5e5; }
+.item-row td, .checklist-row, .report-row { padding: 12px 24px; }
+.checklist-row { display: flex; justify-content: space-between; align-items: center; }
+.item-row button { background: transparent; border: 0; color: #6555d2; vertical-align: middle; }
+.report-row h3 { margin: 0; }
+.storage-error { color: #b82d36; }
+

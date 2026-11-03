@@ -4,34 +4,34 @@
 <section class="metrics" aria-label="Summary metrics">
   <article class="card">
     <h2>Tasks Completed</h2>
-    <strong class="green">0</strong>
+    <strong class="green">{{ tasks().completed }}</strong>
   </article>
   <article class="card">
     <h2>Task Completion Rate</h2>
-    <strong class="purple">—</strong>
+    <strong class="purple">{{ tasks().rate }}</strong>
   </article>
   <article class="card">
     <h2>Checklist Completion Rate</h2>
-    <strong class="purple">—</strong>
+    <strong class="purple">{{ checklist().rate }}</strong>
   </article>
 </section>
 
 <section class="details" aria-label="Completion breakdown">
   <article class="card">
     <h2>Task Status</h2>
-    <p>No tasks to summarize yet.</p>
+    @if (!tasks().total) { <p>No tasks to summarize yet.</p> }
     <dl>
-      <div><dt><span class="dot green" aria-hidden="true"></span>Completed</dt><dd>0</dd></div>
-      <div><dt><span class="dot amber" aria-hidden="true"></span>Pending</dt><dd>0</dd></div>
-      <div><dt><span class="dot red" aria-hidden="true"></span>Overdue</dt><dd>0</dd></div>
+      <div><dt><span class="dot green" aria-hidden="true"></span>Completed</dt><dd>{{ tasks().completed }}</dd></div>
+      <div><dt><span class="dot amber" aria-hidden="true"></span>Pending</dt><dd>{{ tasks().pending }}</dd></div>
+      <div><dt><span class="dot red" aria-hidden="true"></span>Overdue</dt><dd>{{ tasks().overdue }}</dd></div>
     </dl>
   </article>
   <article class="card">
     <h2>Daily Checklist Progress</h2>
-    <p>No checklist items to summarize yet.</p>
+    @if (!checklist().total) { <p>No checklist items to summarize yet.</p> }
     <dl>
-      <div><dt><span class="dot green" aria-hidden="true"></span>Completed</dt><dd>0</dd></div>
-      <div><dt><span class="dot amber" aria-hidden="true"></span>Pending</dt><dd>0</dd></div>
+      <div><dt><span class="dot green" aria-hidden="true"></span>Completed</dt><dd>{{ checklist().completed }}</dd></div>
+      <div><dt><span class="dot amber" aria-hidden="true"></span>Pending</dt><dd>{{ checklist().pending }}</dd></div>
     </dl>
   </article>
 </section>
