@@ -1,1 +1,32 @@
 <h1>Settings</h1>
+<p class="intro">View your workspace and regional settings</p>
+
+<div class="settings-grid">
+  <section class="card" aria-labelledby="workspace-title">
+    <header>
+      <mat-icon>dashboard</mat-icon>
+      <div>
+        <h2 id="workspace-title">Workspace</h2>
+        <p>Details about your task workspace</p>
+      </div>
+    </header>
+    <dl>
+      <div><dt>Workspace name</dt><dd>TaskFlow</dd></div>
+      <div><dt>Appearance</dt><dd>Light</dd></div>
+    </dl>
+  </section>
+
+  <section class="card" aria-labelledby="regional-title">
+    <header>
+      <mat-icon>language</mat-icon>
+      <div>
+        <h2 id="regional-title">Regional Settings</h2>
+        <p>Defaults detected from your browser</p>
+      </div>
+    </header>
+    <dl>
+      <div><dt>Locale</dt><dd>{{ locale }}</dd></div>
+      <div><dt>Time zone</dt><dd>{{ timeZone }}</dd></div>
+    </dl>
+  </section>
+</div>
